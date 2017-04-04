@@ -1,2 +1,2 @@
 FROM library/postgres
-ADD init/* /docker-entrypoint-initdb.d/
+ADD init_psql/* /docker-entrypoint-initdb.d/

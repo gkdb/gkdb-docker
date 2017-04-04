@@ -1,1 +1,2 @@
 *.swp
+init_psql/default_users.sql

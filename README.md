@@ -15,13 +15,12 @@ image that contains the default [GKDB](https://github.com/gkdb/gkdb) structure.
   ```
   export POSTGRES_PASSWORD=****
   ```
-4. Start docker container
+4. Start docker container (with global remote password login)
   ```
-  sudo docker run --name postgres -d postgres-gkdb
+  sudo docker run --name postgres -e POSTGRES_PASSWORD=$POSTGRES_PASSWORD -e POSTGRES_INITDB_ARGS="--auth-host=md5" -p 5432:5432 -d postgres-gkdb;
   sudo docker start postgres
   ```
 5. Test connection
   ```
-  sudo docker run -it --rm --link postgres:postgres postgres psql -h postgres -U postgres
+  sudo docker run -it --rm --link postgres:postgres postgres psql -h postgres -U postgres -d gkdb
   ```
-
