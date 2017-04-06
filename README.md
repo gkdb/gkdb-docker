@@ -1,7 +1,7 @@
 This repository contains scripts to build the [Docker](https://www.docker.com/)
 image that contains the default [GKDB](https://github.com/gkdb/gkdb) structure.
 
-## Initialize new GKDB
+## Initialize new GKDB (manual)
 1. Clone repo
 
   ```
@@ -40,10 +40,30 @@ image that contains the default [GKDB](https://github.com/gkdb/gkdb) structure.
   sudo docker exec -i -t postgres psql -h localhost -U postgres -d gkdb
   ```
 
-## Start webinterface
+## Start webinterface (manual)
 1. Start adminer container
 
   ```
   sudo docker run -d --network=isolated --name adminer -p 8080:8080 adminer
   sudo docker start adminer
+  ```
+
+## Use Docker Compose (experimental)
+1. Clone repo
+
+  ```
+  git clone https://github.com/gkdb/gkdb-docker.git
+  cd gkdb-docker
+  ```
+
+2. Set admin password
+
+  ```
+  export POSTGRES_PASSWORD=****
+  ```
+
+3. Start containers
+
+  ```
+  sudo -E docker-compose up
   ```

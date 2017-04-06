@@ -1,0 +1,22 @@
+version: '3'
+networks:
+  isolated:
+    driver_opts:
+      com.docker.network.bridge.enable_icc: "false"
+      com.docker.network.bridge.enable_ip_masquerade: "false"
+services:
+  postgres_server:
+    build: .
+    ports:
+      - "5432:5432"
+    networks:
+      - isolated
+    environment:
+      - POSTGRES_PASSWORD="${POSTGRES_PASSWORD}"
+      - POSTGRES_INITDB_ARGS="--auth-host=md5"
+  adminer:
+    image: adminer
+    networks:
+      - isolated
+    ports:
+      - "8080:8080"
