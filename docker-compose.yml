@@ -20,3 +20,18 @@ services:
       - isolated
     ports:
       - "8080:8080"
+  ldap-service:
+    image: osixia/openldap:1.1.8
+    hostname: ldap-service
+    volumes:
+      - "/home/karel/gkdb-docker/openldap/env.yaml:/container/environment/01-custom/env.yaml"
+  phpldapadmin-service:
+    build: ./phpldapadmin
+    hostname: phpldapadmin-service
+    links:
+      - ldap-service:ldap-host
+    ports:
+      - "80:80"
+
+#docker run --name ldap-service --hostname ldap-service --detach osixia/openldap:1.1.8
+#docker run -p 80:80 --name phpldapadmin-service --hostname phpldapadmin-service --link ldap-service:ldap-host --env PHPLDAPADMIN_HTTPS=false --env PHPLDAPADMIN_LDAP_HOSTS=ldap-host --detach osixia/phpldapadmin:0.6.12
