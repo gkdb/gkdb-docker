@@ -1,2 +1,2 @@
 *.swp
-init_psql/default_users.sql
+postgres_server/init_psql/default_users.sql

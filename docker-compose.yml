@@ -6,7 +6,7 @@ networks:
       com.docker.network.bridge.enable_ip_masquerade: "false"
 services:
   postgres_server:
-    build: .
+    build: ./postgres_server
     ports:
       - "5432:5432"
     networks:
