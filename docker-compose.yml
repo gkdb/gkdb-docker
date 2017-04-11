@@ -21,10 +21,8 @@ services:
     ports:
       - "8080:8080"
   ldap-service:
-    image: osixia/openldap:1.1.8
+    build: ./openldap
     hostname: ldap-service
-    volumes:
-      - "/home/karel/gkdb-docker/openldap/env.yaml:/container/environment/01-custom/env.yaml"
   phpldapadmin-service:
     build: ./phpldapadmin
     hostname: phpldapadmin-service
