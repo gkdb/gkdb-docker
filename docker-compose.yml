@@ -14,8 +14,9 @@ networks:
       config:
         - subnet: 172.32.0.0/16
 services:
-  postgres_server:
+  postgres-server:
     build: ./postgres_server
+    hostname: postgres_server
     ports:
       - "5432:5432"
     networks:
@@ -29,21 +30,21 @@ services:
       - isolated
     ports:
       - "8080:8080"
-  ldap-service:
+  ldap-server:
     build: ./openldap
-    hostname: ldap-service
+    hostname: ldap_server
     networks:
       - trusted
-  phpldapadmin-service:
+  phpldapadmin:
     build: ./phpldapadmin
-    hostname: phpldapadmin-service
+    hostname: phpldapadmin
     ports:
       - "80:80"
     networks:
       - trusted
     links:
-      - ldap-service
-  syncer-service:
+      - ldap-server
+  syncer:
     build: ./syncer
     networks:
       - trusted
