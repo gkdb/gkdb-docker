@@ -1,9 +1,18 @@
 version: '3'
 networks:
   isolated:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.31.0.0/16
     driver_opts:
       com.docker.network.bridge.enable_icc: "false"
       com.docker.network.bridge.enable_ip_masquerade: "false"
+  trusted:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.32.0.0/16
 services:
   postgres_server:
     build: ./postgres_server
@@ -23,15 +32,21 @@ services:
   ldap-service:
     build: ./openldap
     hostname: ldap-service
+    networks:
+      - trusted
   phpldapadmin-service:
     build: ./phpldapadmin
     hostname: phpldapadmin-service
-    links:
-      - ldap-service:ldap-host
     ports:
       - "80:80"
+    networks:
+      - trusted
+    links:
+      - ldap-service
   syncer-service:
     build: ./syncer
+    networks:
+      - trusted
 
 #docker run --name ldap-service --hostname ldap-service --detach osixia/openldap:1.1.8
 #docker run -p 80:80 --name phpldapadmin-service --hostname phpldapadmin-service --link ldap-service:ldap-host --env PHPLDAPADMIN_HTTPS=false --env PHPLDAPADMIN_LDAP_HOSTS=ldap-host --detach osixia/phpldapadmin:0.6.12
