@@ -54,7 +54,7 @@
 #  - takes two arguments: (handler, data),
 #    where `handler` is the calling web.RequestHandler,
 #    and `data` is the POST form data from the login page.
-#c.JupyterHub.authenticator_class = 'ldapauthenticator.LDAPAuthenticator'
+c.JupyterHub.authenticator_class = 'ldapauthenticator.ldapauthenticator.LDAPLocalAuthenticator'
 
 ## The base URL of the entire application
 #c.JupyterHub.base_url = '/'
@@ -587,7 +587,19 @@ c.LocalAuthenticator.create_system_users = True
 
 ## Address of the LDAP Server to contact.
 # Just use a bare hostname or IP, without a port name or protocol prefix.
-#c.LDAPAuthenticator.server_address = '127.0.0.1'
+import socket
+import fcntl
+import struct
+ifname = 'eth0'
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+ip = socket.inet_ntoa(fcntl.ioctl(
+                s.fileno(),
+                0x8915,  # SIOCGIFADDR
+                struct.pack('256s', bytes(ifname[:15], 'utf-8'))
+            )[20:24])
+host = ip.rsplit('.', 1)[0] + '.1'
+print(host)
+c.LDAPAuthenticator.server_address = host
 
 ## Template to use to generate the full dn for a user from the human readable
 # username.abs
@@ -606,9 +618,9 @@ c.LocalAuthenticator.create_system_users = True
 # object.abs
 #
 # The {username} is expanded into the username the user provides.
-#c.LDAPAuthenticator.bind_dn_template = []
+c.LDAPAuthenticator.bind_dn_template = 'cn={username},dc=gkdb,dc=org'
 
 ## Boolean to specify whether to use SSL encryption when contacting the LDAP server.
 # Highly recommended that this be left to True (the default) unless there are
 # very good reasons otherwise.
-#c.LDAPAuthenticator.use_ssl = True
+c.LDAPAuthenticator.use_ssl = False

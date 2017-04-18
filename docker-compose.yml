@@ -54,6 +54,8 @@ services:
     hostname: jupyterhub
     networks:
       - isolated
+    ports:
+      - "8000:8000"
 
 #docker run --name ldap-service --hostname ldap-service --detach osixia/openldap:1.1.8
 #docker run -p 80:80 --name phpldapadmin-service --hostname phpldapadmin-service --link ldap-service:ldap-host --env PHPLDAPADMIN_HTTPS=false --env PHPLDAPADMIN_LDAP_HOSTS=ldap-host --detach osixia/phpldapadmin:0.6.12
