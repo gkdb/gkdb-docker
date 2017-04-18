@@ -1,40 +1,41 @@
 version: '3'
-networks:
-  isolated:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.31.0.0/16
-    driver_opts:
-      com.docker.network.bridge.enable_icc: "false"
-      com.docker.network.bridge.enable_ip_masquerade: "false"
-  trusted:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 172.32.0.0/16
+#networks:
+#  isolated:
+#    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.31.0.0/16
+#          gateway: 172.31.0.1
+#    driver_opts:
+#      com.docker.network.bridge.enable_icc: "false"
+#      com.docker.network.bridge.enable_ip_masquerade: "false"
+#  trusted:
+#    driver: bridge
+#    ipam:
+#      config:
+#        - subnet: 172.32.0.0/16
 services:
   postgres-server:
     build: ./postgres_server
     hostname: postgres_server
     ports:
       - "5432:5432"
-    networks:
-      - isolated
+#    networks:
+#      - isolated
     environment:
       - POSTGRES_PASSWORD="${POSTGRES_PASSWORD}"
       - POSTGRES_INITDB_ARGS="--auth-host=md5"
   adminer:
     image: adminer
-    networks:
-      - isolated
+#    networks:
+#      - isolated
     ports:
       - "8080:8080"
   ldap-server:
     build: ./openldap
     hostname: ldap_server
-    networks:
-      - isolated
+#    networks:
+#      - isolated
     ports:
       - "389:389"
       - "636:636"
@@ -43,17 +44,17 @@ services:
     hostname: phpldapadmin
     ports:
       - "80:80"
-    networks:
-      - isolated
+#    networks:
+#      - isolated
   syncer:
     build: ./syncer
-    networks:
-      - trusted
+#    networks:
+#      - isolated
   jupyterhub:
     build: ./jupyterhub
     hostname: jupyterhub
-    networks:
-      - isolated
+#    networks:
+#      - isolated
     ports:
       - "8000:8000"
 
