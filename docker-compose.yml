@@ -34,16 +34,17 @@ services:
     build: ./openldap
     hostname: ldap_server
     networks:
-      - trusted
+      - isolated
+    ports:
+      - "389:389"
+      - "636:636"
   phpldapadmin:
     build: ./phpldapadmin
     hostname: phpldapadmin
     ports:
       - "80:80"
     networks:
-      - trusted
-    links:
-      - ldap-server
+      - isolated
   syncer:
     build: ./syncer
     networks:
