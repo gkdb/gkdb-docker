@@ -3,9 +3,12 @@ FROM osixia/light-baseimage:0.2.6
 # Download nginx from apt-get and clean apt-get files
 RUN apt-get -y update \
     && LC_ALL=C DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+       ca-certificates \
        python-ldap \
+       git \
+       python-psycopg2 \
        cron \
-       #vim \
+#       vim \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -19,5 +22,6 @@ RUN /container/tool/install-service
 # Add default env directory
 ADD environment /container/environment/99-default
 
+RUN cd / && git clone https://github.com/gkdb/gkdb-ldap.git
 # Expose ports
 # EXPOSE
