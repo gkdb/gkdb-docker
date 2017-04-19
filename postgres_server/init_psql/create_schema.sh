@@ -21,3 +21,7 @@ psql -v ON_ERROR_STOP=1 -d gkdb --username "$POSTGRES_USER" <<-EOSQL
     GRANT ALL ON SCHEMA develop TO developer;
     GRANT ALL PRIVILEGES ON DATABASE gkdb TO developer;
 EOSQL
+
+psql -v ON_ERROR_STOP=1 -d gkdb --username "$POSTGRES_USER" <<-EOSQL
+    CREATE USER admin PASSWORD '$LDAP_ADMIN_PASSWORD' IN ROLE developer;
+EOSQL

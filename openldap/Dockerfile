@@ -2,8 +2,8 @@ FROM osixia/openldap:1.1.8
 #MAINTAINER Your Name <your@name.com>
 
 RUN apt-get update && apt-get install -y \
+#  vim \
   python-ldap
-#  vim
 
 ADD bootstrap /container/service/slapd/assets/config/bootstrap
 RUN rm /container/service/slapd/assets/config/bootstrap/PLACEHOLDER

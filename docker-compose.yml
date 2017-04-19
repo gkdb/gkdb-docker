@@ -23,7 +23,8 @@ services:
 #    networks:
 #      - isolated
     environment:
-      - POSTGRES_PASSWORD="${POSTGRES_PASSWORD}"
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
       - POSTGRES_INITDB_ARGS="--auth-host=md5"
   adminer:
     image: adminer
@@ -39,6 +40,9 @@ services:
     ports:
       - "389:389"
       - "636:636"
+    environment:
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+      - LDAP_CONFIG_PASSWORD=${LDAP_ADMIN_PASSWORD}
   phpldapadmin:
     build: ./phpldapadmin
     hostname: phpldapadmin
@@ -50,6 +54,11 @@ services:
     build: ./syncer
 #    networks:
 #      - isolated
+    environment:
+      - PGPASSWORD=${LDAP_ADMIN_PASSWORD}
+      - PGUSER=admin
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
+      - LDAP_ADMIN_USER=admin
   jupyterhub:
     build: ./jupyterhub
     hostname: jupyterhub
