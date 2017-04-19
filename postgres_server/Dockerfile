@@ -1,4 +1,7 @@
 FROM library/postgres
+#RUN apt-get update && apt-get install -y \
+#  vim
+
 ADD init_psql/* /docker-entrypoint-initdb.d/
 RUN chsh -s /bin/bash postgres
 RUN mkdir -p /home/postgres
