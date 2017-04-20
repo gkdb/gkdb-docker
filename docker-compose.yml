@@ -47,7 +47,7 @@ services:
     build: ./phpldapadmin
     hostname: phpldapadmin
     ports:
-      - "80:80"
+      - "8888:80"
 #    networks:
 #      - isolated
   syncer:
