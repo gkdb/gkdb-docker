@@ -1,7 +1,8 @@
 FROM jupyterhub/jupyterhub:0.7.2
 
-#RUN apt-get update && apt-get install -y \
-#  vim
+RUN apt-get update && apt-get install -y \
+  vim \
+  postgresql-client-9.4
 
 RUN pip --no-cache-dir install jupyter
 RUN pip install --no-cache-dir peewee \
