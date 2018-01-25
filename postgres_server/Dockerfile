@@ -1,4 +1,4 @@
-FROM library/postgres
+FROM library/postgres:9.6.2
 #RUN apt-get update && apt-get install -y \
 #  vim
 

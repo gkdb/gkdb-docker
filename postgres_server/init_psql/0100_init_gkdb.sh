@@ -1,0 +1,23 @@
+#!/bin/bash
+DB_NAME="gkdb"
+psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" <<-EOSQL
+    CREATE DATABASE $DB_NAME;
+EOSQL
+
+psql -v ON_ERROR_STOP=1 -d "$DB_NAME" --username "$POSTGRES_USER" <<-EOSQL
+    CREATE EXTENSION hstore;
+    CREATE SCHEMA develop;
+
+    GRANT ALL ON SCHEMA develop TO developer;
+    GRANT ALL PRIVILEGES ON DATABASE $DB_NAME TO developer;
+
+    ALTER DEFAULT PRIVILEGES IN SCHEMA develop
+        GRANT SELECT ON TABLES TO read_only;
+
+    ALTER DEFAULT PRIVILEGES FOR ROLE developer IN SCHEMA develop
+        GRANT ALL ON TABLES TO developer;
+    ALTER DEFAULT PRIVILEGES FOR ROLE developer IN SCHEMA develop
+        GRANT ALL ON SEQUENCES TO developer;
+    ALTER DEFAULT PRIVILEGES FOR ROLE developer IN SCHEMA develop
+        GRANT ALL ON FUNCTIONS TO developer;
+EOSQL
