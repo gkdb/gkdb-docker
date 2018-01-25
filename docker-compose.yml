@@ -26,6 +26,8 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
       - POSTGRES_INITDB_ARGS="--auth-host=md5"
+    volumes:
+      - ./data/postgresql/data:/var/lib/postgresql/data
   adminer:
     image: adminer
 #    networks:
@@ -43,6 +45,9 @@ services:
     environment:
       - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
       - LDAP_CONFIG_PASSWORD=${LDAP_ADMIN_PASSWORD}
+    volumes:
+      - ./data/slapd/database:/var/lib/ldap
+      - ./data/slapd/config:/etc/ldap/slapd.d
   phpldapadmin:
     build: ./phpldapadmin
     hostname: phpldapadmin
