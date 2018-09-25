@@ -1,4 +1,4 @@
-FROM osixia/openldap:1.1.8
+FROM osixia/openldap:1.2.2
 #MAINTAINER Your Name <your@name.com>
 
 RUN apt-get update && apt-get install -y \

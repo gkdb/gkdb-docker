@@ -1,4 +1,4 @@
-FROM osixia/phpldapadmin:0.6.12
+FROM osixia/phpldapadmin:0.7.2
 
 #RUN apt-get update && apt-get install -y \
 #  vim

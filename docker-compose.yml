@@ -1,27 +1,10 @@
 version: '3'
-#networks:
-#  isolated:
-#    driver: bridge
-#    ipam:
-#      config:
-#        - subnet: 172.31.0.0/16
-#          gateway: 172.31.0.1
-#    driver_opts:
-#      com.docker.network.bridge.enable_icc: "false"
-#      com.docker.network.bridge.enable_ip_masquerade: "false"
-#  trusted:
-#    driver: bridge
-#    ipam:
-#      config:
-#        - subnet: 172.32.0.0/16
 services:
   postgres-server:
     build: ./postgres_server
     hostname: postgres_server
     ports:
       - "5432:5432"
-#    networks:
-#      - isolated
     environment:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
@@ -30,15 +13,11 @@ services:
       - ./data/postgresql/data:/var/lib/postgresql/data
   adminer:
     image: adminer
-#    networks:
-#      - isolated
     ports:
       - "8080:8080"
   ldap-server:
     build: ./openldap
     hostname: ldap_server
-#    networks:
-#      - isolated
     ports:
       - "389:389"
       - "636:636"
@@ -53,12 +32,8 @@ services:
     hostname: phpldapadmin
     ports:
       - "8888:80"
-#    networks:
-#      - isolated
   syncer:
     build: ./syncer
-#    networks:
-#      - isolated
     environment:
       - PGPASSWORD=${LDAP_ADMIN_PASSWORD}
       - PGUSER=admin
@@ -67,8 +42,6 @@ services:
   jupyterhub:
     build: ./jupyterhub
     hostname: jupyterhub
-#    networks:
-#      - isolated
     ports:
       - "8000:8000"
 
