@@ -273,7 +273,8 @@ c.JupyterHub.authenticator_class = 'ldapauthenticator.ldapauthenticator.LDAPLoca
 #  Some spawners allow shell-style expansion here, allowing you to use
 #  environment variables here. Most, including the default, do not. Consult the
 #  documentation for your spawner to verify!
-#c.Spawner.args = []
+#c.Spawner.args = ['cp /srv/jupyterhub/examples_peewee.ipynb $HOME']
+#c.Spawner.args = ['ls /srv/jupyterhub/examples_peewee.ipynb']
 
 ## The command used for starting the single-user server.
 #
@@ -288,6 +289,13 @@ c.JupyterHub.authenticator_class = 'ldapauthenticator.ldapauthenticator.LDAPLoca
 #  documentation for your spawner to verify!
 #c.Spawner.cmd = ['jupyterhub-singleuser']
 
+from subprocess import check_call
+def my_hook(spawner):
+    print('Copying files....')
+    username = spawner.user.name
+    check_call(['cp', '/srv/jupyterhub/examples_peewee.ipynb', username])
+
+c.Spawner.pre_spawn_hook = my_hook
 ## Minimum number of cpu-cores a single-user notebook server is guaranteed to
 #  have available.
 #
@@ -598,7 +606,6 @@ ip = socket.inet_ntoa(fcntl.ioctl(
                 struct.pack('256s', bytes(ifname[:15], 'utf-8'))
             )[20:24])
 host = ip.rsplit('.', 1)[0] + '.1'
-print(host)
 c.LDAPAuthenticator.server_address = host
 
 ## Template to use to generate the full dn for a user from the human readable
